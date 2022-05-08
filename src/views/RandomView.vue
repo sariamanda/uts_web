@@ -15,7 +15,7 @@ export default {
 
   methods:{
     async getRandom(){
-      const random = Math.floor(Math.random() * 10);
+      const random = Math.floor(Math.random() * 5);
       this.fetchQuran("verses/random?language=id&words=true&translations=id&audio=1&fields="+random)
         .then(res => {
           const verse = res.verse;

@@ -5,34 +5,29 @@ import axios from "axios";
 export default {
   data() {
     return {
-      cari: "1",
+      cari: "",
       surah: ref([]),
       judul: ref([]),
       name: [],
       audio: '',
       translations: ref([]),
-      tafsirs: ref([]),
     };
   },
 
   watch: {
-    cari()
-    {
+    cari() {
       this.getSurah();
       this.getJudul();
       this.getAudio();
       this.getTranslate();
-      this.getTafsir();
     }
   },
 
-  mounted()
-  {
+  mounted() {
     this.getSurah();
     this.getJudul();
     this.getAudio();
     this.getTranslate();
-    this.getTafsir();
   },
 
   methods: {
@@ -85,48 +80,32 @@ export default {
           console.log(error);
         });
     },
-    getTafsir()
-    {
-      axios.get('https://api.quran.com/api/v4/quran/tafsirs/381?chapter_number=' + this.cari)
-        .then(response => {
-          this.tafsirs = response.data.tafsirs;
-        })
-        .catch(error => {
-          console.log(error);
-          this.error = true;
-        })
-        .finally(() => this.loading = false);
-    },
   }
 };
 </script>
 
 <template>
-  <div class="text-lg-center mt-5">
+    <div class="text-lg-center mt-5">
     <h1 class="text-lg-center">Masukkan nomor surah!</h1>
-    <input v-model="cari" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-    <div class="mt-5">
-      <h1>{{ judul.name_complex }}</h1>
+    <input v-model="cari" class="form-control me-2 mt-3" type="search" placeholder="Search" aria-label="Search"/>
+    <div v-if="cari" class="text-center mt-4">
+      <h1>{{ judul?.name_complex }}</h1>
       <br>
-      <h1>{{ judul.name_arabic }}</h1>
+      <h1>{{ judul?.name_arabic }}</h1>
       <br>
-      <h3>{{ name.name }}</h3>
+      <h3>{{ name?.name }}</h3>
       <br>
-      <h4>Diturunkan di {{ judul.revelation_place }}</h4>
+      <h4>Diturunkan di {{ judul?.revelation_place }}</h4>
       <br>
-      <h5>Terdiri dari {{judul.verses_count}} ayat</h5>
+      <h5>Terdiri dari {{judul?.verses_count}} ayat</h5>
+    </div>
       <p v-if="audio" class="text-lg-center mt-4">
-        <audio v-bind:src="audio.audio_url" controls>
+        <audio v-bind:src="audio?.audio_url" controls>
         </audio>
       </p>
     </div>
-    <div v-for="(ayat,i) in surah" :key="i" class="text-lg-center mt-4">
-        <h5>{{ ayat.text_uthmani }}{{ayat.verse_key}}</h5>
-        <p v-html="translations[i].text"></p>
+    <div v-if="cari" v-for="(ayat,i) in surah" :key="i" class="text-lg-center mt-4">
+        <h5>{{ ayat?.text_uthmani }}{{ayat?.verse_key}}</h5>
+        <p v-html="translations[i]?.text"></p>
     </div>
-    </div>
-</template>
+    </template>
