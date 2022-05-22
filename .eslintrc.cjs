@@ -12,3 +12,4 @@ module.exports = {
     "vue/setup-compiler-macros": true
   }
 }
+

@@ -60,8 +60,11 @@ export default {
 </script>
 
 <template>
-  <div class="text-center mt-5">
-    <h1>Surah {{ surah.name_complex }}</h1>
+  <div class="text-center mt-2">
+    <div>
+      <img src="../assets/dds.png" alt="logo" width="250">
+    </div>
+    <h1><strong>&bullet;&bullet;  Surah {{ surah.name_complex }}  &bullet;&bullet;</strong></h1>
     <div v-html="info"></div>
   </div>
 </template>
